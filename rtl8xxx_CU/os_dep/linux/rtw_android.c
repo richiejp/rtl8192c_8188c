@@ -98,13 +98,7 @@ typedef struct cmd_tlv {
 #endif /* PNO_SUPPORT */
 
 typedef struct android_wifi_priv_cmd {
-
-#ifdef CONFIG_COMPAT
-	compat_uptr_t buf;
-#else
-	char *buf;
-#endif
-
+	char __user *buf;
 	int used_len;
 	int total_len;
 } android_wifi_priv_cmd;
@@ -371,24 +365,16 @@ int rtw_android_priv_cmd(struct net_device *net, struct ifreq *ifr, int cmd)
 		ret = -EFAULT;
 		goto exit;
 	}
-
-	command = rtw_zmalloc(priv_cmd.total_len);
-	if (!command)
-	{
-		DBG_871X("%s: failed to allocate memory\n", __FUNCTION__);
-		ret = -ENOMEM;
+	if (priv_cmd.total_len < 1) {
+		ret = -EINVAL;
 		goto exit;
 	}
-
-	if (!access_ok(VERIFY_READ, priv_cmd.buf, priv_cmd.total_len)){
-	 	DBG_871X("%s: failed to access memory\n", __FUNCTION__);
-		ret = -EFAULT;
-		goto exit;
-	 }
-	if (copy_from_user(command, (void *)priv_cmd.buf, priv_cmd.total_len)) {
-		ret = -EFAULT;
+	command = memdup_user(priv_cmd.buf, priv_cmd.total_len);
+	if (IS_ERR(command)) {
+		ret = PTR_ERR(command);
 		goto exit;
 	}
+	command[priv_cmd.total_len - 1] = 0;
 
 	DBG_871X("%s: Android private cmd \"%s\" on %s\n"
 		, __FUNCTION__, command, ifr->ifr_name);
