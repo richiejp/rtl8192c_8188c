@@ -516,19 +516,18 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
 static int rtw_ndev_notifier_call(struct notifier_block * nb, unsigned long state, void *ndev)
 {
 	struct net_device *dev = ndev;
-	printk("In rtw_ndev_notifier_call");
-	if(dev->netdev_ops == NULL) {
-		printk("netdev_ops is null");
-	}
+
 
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
+	if(dev->netdev_ops == NULL) 
+		return NOTIFY_DONE;
+	
 	if (dev->netdev_ops->ndo_do_ioctl != rtw_ioctl)
 #else
 	if (dev->do_ioctl != rtw_ioctl)
 #endif
 		return NOTIFY_DONE;
 
-	printk("Checked ioctl");
 	DBG_871X_LEVEL(_drv_info_, FUNC_NDEV_FMT" state:%lu\n", FUNC_NDEV_ARG(dev), state);
 
 	switch (state) {
