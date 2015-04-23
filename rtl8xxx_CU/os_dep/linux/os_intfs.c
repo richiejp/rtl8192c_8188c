@@ -168,7 +168,7 @@ int rtw_mc2u_disable = 0;
 int rtw_mac_phy_mode = 0; //0:by efuse, 1:smsp, 2:dmdp, 3:dmsp.
 
 #ifdef CONFIG_80211D
-int rtw_80211d = 0;
+int rtw_80211d = 1;
 #endif
 
 char* ifname = "wlan%d";
@@ -516,6 +516,10 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
 static int rtw_ndev_notifier_call(struct notifier_block * nb, unsigned long state, void *ndev)
 {
 	struct net_device *dev = ndev;
+	printk("In rtw_ndev_notifier_call");
+	if(dev->netdev_ops == NULL) {
+		printk("netdev_ops is null");
+	}
 
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
 	if (dev->netdev_ops->ndo_do_ioctl != rtw_ioctl)
@@ -524,6 +528,7 @@ static int rtw_ndev_notifier_call(struct notifier_block * nb, unsigned long stat
 #endif
 		return NOTIFY_DONE;
 
+	printk("Checked ioctl");
 	DBG_871X_LEVEL(_drv_info_, FUNC_NDEV_FMT" state:%lu\n", FUNC_NDEV_ARG(dev), state);
 
 	switch (state) {
