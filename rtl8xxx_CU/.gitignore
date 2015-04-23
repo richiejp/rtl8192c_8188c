@@ -7,4 +7,5 @@ Modules.markers
 *.mod
 *.mod.*
 *.symvers
+tags
 modules.order
