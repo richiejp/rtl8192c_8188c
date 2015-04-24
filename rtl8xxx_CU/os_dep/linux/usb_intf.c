@@ -1571,9 +1571,7 @@ static int __init rtw_drv_entry(void)
 	usb_drv->drv_registered = _TRUE;
 	rtw_suspend_lock_init();
 	rtw_drv_proc_init();
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 	rtw_ndev_notifier_register();
-#endif
 
 	ret = usb_register(&usb_drv->usbdrv);
 
@@ -1581,9 +1579,7 @@ static int __init rtw_drv_entry(void)
 		usb_drv->drv_registered = _FALSE;
 		rtw_suspend_lock_uninit();
 		rtw_drv_proc_deinit();
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
 		rtw_ndev_notifier_unregister();
-#endif
 		goto exit;
 	}
 
