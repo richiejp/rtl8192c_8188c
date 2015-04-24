@@ -192,7 +192,7 @@
 	#endif
 #endif
 
-#define CONFIG_CONCURRENT_MODE 1
+//#define CONFIG_CONCURRENT_MODE 0
 #ifdef CONFIG_CONCURRENT_MODE
 	#define CONFIG_TSF_RESET_OFFLOAD 1			// For 2 PORT TSF SYNC.
 	//#define CONFIG_HWPORT_SWAP				//Port0->Sec , Port1 -> Pri
@@ -301,12 +301,12 @@
 /*
  * Debug  Related Config
  */
-//#define CONFIG_DEBUG_RTL871X
+#define CONFIG_DEBUG_RTL871X
 
 #define DBG	0
-//#define CONFIG_DEBUG
+#define CONFIG_DEBUG
 
-#define CONFIG_PROC_DEBUG	1
+//#define CONFIG_PROC_DEBUG	0
 
 //#define DBG_IO
 //#define DBG_DELAY_OS

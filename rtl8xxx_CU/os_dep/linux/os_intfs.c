@@ -517,6 +517,8 @@ static int rtw_ndev_notifier_call(struct notifier_block * nb, unsigned long stat
 {
 	struct net_device *dev = ndev;
 
+	if(ndev == NULL)
+		return NOTIFY_DONE;
 
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
 	if(dev->netdev_ops == NULL) 
@@ -575,8 +577,8 @@ void rtw_ndev_uninit(struct net_device *dev)
 
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
 static const struct net_device_ops rtw_netdev_ops = {
-	.ndo_init = rtw_ndev_init,
-	.ndo_uninit = rtw_ndev_uninit,
+//	.ndo_init = rtw_ndev_init,
+//	.ndo_uninit = rtw_ndev_uninit,
 	.ndo_open = netdev_open,
 	.ndo_stop = netdev_close,
 	.ndo_start_xmit = rtw_xmit_entry,
@@ -703,6 +705,8 @@ void rtw_unregister_netdevs(struct dvobj_priv *dvobj)
 	int i;
 	_adapter *padapter = NULL;
 
+	DBG_871X("+rtw_unregister_netdevs\n");
+
 	for (i=0;i<dvobj->iface_nums;i++) {
 		struct net_device *pnetdev = NULL;
 
@@ -722,6 +726,7 @@ void rtw_unregister_netdevs(struct dvobj_priv *dvobj)
 		#endif
 	}
 
+	DBG_871X("-rtw_unregister_netdevs\n");
 }
 
 u32 rtw_start_drv_threads(_adapter *padapter)
