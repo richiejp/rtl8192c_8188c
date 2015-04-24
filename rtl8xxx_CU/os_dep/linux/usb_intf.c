@@ -1484,9 +1484,15 @@ exit:
 static void rtw_dev_remove(struct usb_interface *pusb_intf)
 {
 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
-	_adapter *padapter = dvobj->if1;
+	_adapter *padapter;
 
-_func_exit_;
+	if(!dvobj) 
+	{
+		DBG_871X("dvobj is null\n");
+		return;
+	}
+
+ 	padapter = dvobj->if1;
 
 	DBG_871X("+rtw_dev_remove\n");
 	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+dev_remove()\n"));
@@ -1497,7 +1503,7 @@ _func_exit_;
 
 	if(usb_drv->drv_registered == _TRUE)
 	{
-		//DBG_871X("r871xu_dev_remove():padapter->bSurpriseRemoved == _TRUE\n");
+		DBG_871X("r871xu_dev_remove():padapter->bSurpriseRemoved == _TRUE\n");
 		padapter->bSurpriseRemoved = _TRUE;
 	}
 	/*else
@@ -1571,7 +1577,7 @@ static int __init rtw_drv_entry(void)
 	usb_drv->drv_registered = _TRUE;
 	rtw_suspend_lock_init();
 	rtw_drv_proc_init();
-	rtw_ndev_notifier_register();
+	//rtw_ndev_notifier_register();
 
 	ret = usb_register(&usb_drv->usbdrv);
 
@@ -1579,7 +1585,7 @@ static int __init rtw_drv_entry(void)
 		usb_drv->drv_registered = _FALSE;
 		rtw_suspend_lock_uninit();
 		rtw_drv_proc_deinit();
-		rtw_ndev_notifier_unregister();
+		//rtw_ndev_notifier_unregister();
 		goto exit;
 	}
 
@@ -1599,7 +1605,7 @@ static void __exit rtw_drv_halt(void)
 
 	rtw_suspend_lock_uninit();
 	rtw_drv_proc_deinit();
-	rtw_ndev_notifier_unregister();
+	//rtw_ndev_notifier_unregister();
 
 	DBG_871X_LEVEL(_drv_always_, "module exit success\n");
 
