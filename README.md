@@ -1,6 +1,6 @@
 # Realtek drivers for RTL8192Cxx and RTL8188Cxx
 
-These are the vendor drivers modified to run on more recent kernels (3.14+).
+These are the vendor drivers modified to run on more recent kernels (3.14+). Currently it is quite buggy, but does seem to work in station and AP modes.
 
 ## Compilation and Installation
 
