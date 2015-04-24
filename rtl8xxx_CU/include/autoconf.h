@@ -301,17 +301,17 @@
 /*
  * Debug  Related Config
  */
-//#define CONFIG_DEBUG_RTL871X
+#define CONFIG_DEBUG_RTL871X
 
 #define DBG	0
-//#define CONFIG_DEBUG
+#define CONFIG_DEBUG
 
 #define CONFIG_PROC_DEBUG	1
 
 //#define DBG_IO
 //#define DBG_DELAY_OS
 //#define DBG_MEM_ALLOC
-//#define DBG_IOCTL
+#define DBG_IOCTL
 
 //#define DBG_TX
 //#define DBG_XMIT_BUF
